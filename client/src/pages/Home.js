@@ -9,9 +9,11 @@ const HomePage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/puppies`);
-            const d = await response.data;
-            setData(d)
+            // const response = await axios.get(`${process.env.REACT_APP_API_URL}/puppies`, {});
+            // const d = await response.data;
+            await axios.get(`${process.env.REACT_APP_API_URL}/puppies`)
+                       .then(res => console.log(res))
+                       .catch(error => console.log(error))  
         }
 
         fetchData()
