@@ -20,6 +20,14 @@ const HomePage = () => {
         }
 
         fetchData()
+
+        async function logJSONData() {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/puppies`);
+            const jsonData = await response.json();
+            console.log('fetch', jsonData);
+          }
+
+          logJSONData();
     }, [])
 
     console.log(process.env.REACT_APP_API_URL)
