@@ -17,6 +17,8 @@ const HomePage = () => {
         fetchData()
     }, [])
 
+    console.log(process.env.REACT_APP_API_URL)
+
     return (
         <div className='app-container'>
             <h1 className={classes.heading}>Featured Puppies to adapt</h1>
