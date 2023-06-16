@@ -1,0 +1,30 @@
+@use '../styles/settings.scss' as colors;
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 320px auto;
+    column-gap: 4rem;
+}
+.content{
+    form{
+       border: 1px #ccc solid;
+       border-radius: 10px;
+       padding: 2rem;
+    }
+}
+.profile-list {
+    margin-bottom: 2rem;
+    > div {
+      border: 1px #ccc solid;
+      padding: 0;
+      margin-bottom: -1px;
+      strong {
+        background-color: rgba(colors.$secondary, 0.09);
+        padding: 0.5rem;
+        border-right: 1px #ccc solid;
+      }
+    }
+}
+.action{
+  margin-top: 60px;
+}

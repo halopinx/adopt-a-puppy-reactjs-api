@@ -1,0 +1,15 @@
+//Fonts Settings;
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+    font-display: swap;
+}
+$font-name: 'Montserrat', sans-serif;
+$font-light: 300;
+$font-regular: 400;
+$font-semibold: 700;
+
+//Branding Colors
+$primary: #EB455F;
+$secondary: #2B3467;
+$error: #fb9d9d;

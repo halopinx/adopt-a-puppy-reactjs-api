@@ -1,0 +1,33 @@
+@use '../../styles/settings.scss' as colors;
+
+.backdrop{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(colors.$secondary, 0.15);
+    transition: background-color 0.5s;
+    transition-delay: 0.5s;
+}
+.content{
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 2rem;   
+    border-radius: 10px;
+    position: relative;
+    h3{
+        margin-top: 10px;
+    }
+}
+.action{
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 2rem;
+}

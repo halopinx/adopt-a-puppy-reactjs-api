@@ -1,0 +1,21 @@
+@use '../../../styles/settings.scss' as colors;
+
+.field{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    label {
+        flex: 1;
+    }
+    &-input {
+        flex: 1;
+        input {
+             margin-bottom: 0;
+        }
+    }
+}
+
+.error{
+  border-color: colors.$error !important;
+  color: colors.$error;
+}

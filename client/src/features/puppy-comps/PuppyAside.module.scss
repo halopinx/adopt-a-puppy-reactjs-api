@@ -1,0 +1,23 @@
+@use '../../styles/settings.scss' as colors;
+
+.card-puppy{
+    &--image{
+        img {
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+    &--details{
+        padding: 20px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        h1{
+            font-size: 1.25rem;
+            margin-top: 0;
+            color: colors.$primary;
+        }
+    }
+}

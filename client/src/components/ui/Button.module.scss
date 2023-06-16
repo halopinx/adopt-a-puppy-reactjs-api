@@ -1,0 +1,8 @@
+@use "../../styles/settings.scss" as colors;
+
+.button{
+    background-color: colors.$primary;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+}

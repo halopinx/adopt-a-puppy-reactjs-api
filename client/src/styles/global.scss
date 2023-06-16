@@ -1,0 +1,51 @@
+@use './settings.scss' as fonts;
+
+body{
+    font-family: fonts.$font-name;
+    font-weight: fonts.$font-light;
+}
+a{
+    text-decoration: none;
+}
+p{
+    line-height: 1.35;
+}
+h1, h2, h3{
+    @extend .font-semibold; 
+}
+h4, h5, h6{
+    @extend .font-regular; 
+}
+button{
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    border: 0;
+}
+input, select {
+    outline: none;
+}
+::placeholder{
+    color: #ccc;
+}
+.app{
+   &-main{
+    padding: 60px 0;    
+   }
+   &-container{
+    max-width: 1200px;
+    margin: 0 auto;
+   }
+}
+.font-light{
+   font-variation-settings: 'wght' fonts.$font-light;
+}
+.font-regular{
+    font-variation-settings: 'wght' fonts.$font-regular;
+}
+.font-semibold{
+    font-variation-settings: 'wght' fonts.$font-semibold;
+}
+
+ 
+ 

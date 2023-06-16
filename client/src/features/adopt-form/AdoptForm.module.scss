@@ -1,0 +1,21 @@
+.fields{
+    max-width: 80%;
+    overflow: hidden;
+    margin: 0 auto;
+    small{
+        margin-bottom: 1rem;
+        display: inline-block;
+        opacity: 0.5;
+    }
+    label{
+        max-width: 200px;
+        font-weight: 500;
+    }
+}
+.btn{
+    float: right;
+    &:disabled{
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}

@@ -1,0 +1,16 @@
+@use '../../styles/settings.scss' as wght;
+
+.detail{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.35rem 0;
+    p {
+        margin: 0;
+    }
+    strong {
+       font-weight: wght.$font-semibold;
+    }
+}
