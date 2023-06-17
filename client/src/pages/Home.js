@@ -1,58 +1,37 @@
-import axios from 'axios';
-import { useEffect , useState } from 'react';
 import PuppyCard from '../features/puppy-comps/PuppyCard';
 import Button from '../components/ui/Button';
 import classes from './Home.module.scss'
+import useFetchData from '../hooks/useFetchData'
 
 const HomePage = () => {
-    const [data, setData] = useState([]);
+    const { data, isLoading } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies`);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            // const response = await axios.get(`${process.env.REACT_APP_API_URL}/puppies`, {});
-            // const d = await response.data;
-            await axios.get(`${process.env.REACT_APP_API_URL}/puppies`)
-                       .then(res => {
-                         console.log(res)
-                         return setData(res.data)
-                       })
-                       .catch(error => console.log(error))  
-        }
-
-        fetchData()
-
-        async function logJSONData() {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/puppies`);
-            const jsonData = await response.json();
-            console.log('fetch', jsonData);
-          }
-
-          logJSONData();
-    }, [])
-
-    console.log(process.env.REACT_APP_API_URL)
+    console.log(data, isLoading)
 
     return (
         <div className='app-container'>
             <h1 className={classes.heading}>Featured Puppies to adapt</h1>
             <div className={classes.wrapper}>
-                {data.slice(0,4).map(data => {
-                    const link = `/${data.name}-${data._id}`.toLowerCase();
-                    return (
-                        <PuppyCard 
-                            key={data._id} 
-                            details={{
-                                name: data.name, 
-                                age: data.age,
-                                gender: data.gender,
-                                image: data.photoUrl, 
-                                link: link
-                            }}
-                        />
-                    )
-                })}
+                { isLoading  && <p>Loading...</p>}
+                { !isLoading && (
+                    data.slice(0,4).map(data => {
+                        const link = `/${data.name}-${data._id}`.toLowerCase();
+                        return (
+                            <PuppyCard 
+                                key={data._id} 
+                                details={{
+                                    name: data.name, 
+                                    age: data.age,
+                                    gender: data.gender,
+                                    image: data.photoUrl, 
+                                    link: link
+                                }}
+                            />
+                        )
+                    })
+                )}
             </div>
-            <div className={classes.action}><Button link='/find-your-puppy'>See more puppies</Button></div>
+            {!isLoading && <div className={classes.action}><Button link='/find-your-puppy'>See more puppies</Button></div>}
         </div>
     );
 }
