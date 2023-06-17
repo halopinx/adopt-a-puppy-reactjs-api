@@ -9,15 +9,6 @@ import useFetchData from '../hooks/useFetchData'
 const HomePage = () => {
     const { data, isLoading, error } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies`);
 
-    console.log('homepage data', data)
-
-    if (isLoading) {
-        return (
-            <div className='app-container'>
-                <Loading message='Fetching data...' />
-            </div>
-        )
-    }
     if (error) {
         return (
             <div className='app-container'>
@@ -29,25 +20,28 @@ const HomePage = () => {
     return (
         <div className='app-container'>
             <h1 className={classes.heading}>Featured Puppies to adapt</h1>
-            <div className={classes.wrapper}>
-             {
-                data?.slice(0,4).map(data => {
-                    const link = `/${data.name}-${data._id}`.toLowerCase();
-                    return (
-                        <PuppyCard 
-                            key={data._id} 
-                            details={{
-                                name: data.name, 
-                                age: data.age,
-                                gender: data.gender,
-                                image: data.photoUrl, 
-                                link: link
-                            }}
-                        />
-                    )
-                    })
-             }
-            </div>
+            { isLoading && <Loading message='Fetching data...' />}
+            { !isLoading && (
+                <div className={classes.wrapper}>
+                    {
+                        data?.slice(0,4).map(data => {
+                            const link = `/${data.name}-${data._id}`.toLowerCase();
+                            return (
+                                <PuppyCard 
+                                    key={data._id} 
+                                    details={{
+                                        name: data.name, 
+                                        age: data.age,
+                                        gender: data.gender,
+                                        image: data.photoUrl, 
+                                        link: link
+                                    }}
+                                />
+                            )
+                            })
+                    }
+                </div>
+            )}
             <div className={classes.action}><Button link='/find-your-puppy'>See more puppies</Button></div>
         </div>
     );

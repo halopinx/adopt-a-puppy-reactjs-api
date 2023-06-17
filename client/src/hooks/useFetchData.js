@@ -7,11 +7,14 @@ const useFetchData = (url) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        setIsLoading(true)
+        setIsLoading(true);
         axios.get(url)
-            .then(response => setData(response.data))
+            .then(response => {
+                setData(response.data)
+                setIsLoading(false)
+            })
             .catch(error => setError(error))
-            .finally(setIsLoading(false))
+      
     }, [url])
 
     return {
