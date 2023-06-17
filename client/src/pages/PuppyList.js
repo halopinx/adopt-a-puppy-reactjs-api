@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from 'react'
 import PuppyCard from "../features/puppy-comps/PuppyCard";
 import Input from '../components/ui/form/Input';
-import Button from '../components/ui/Button';
+import Button from '../components/ui/button/Button';
 import classes from './PuppyList.module.scss'
 import axios from 'axios';
 

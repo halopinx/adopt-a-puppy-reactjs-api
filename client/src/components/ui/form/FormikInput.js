@@ -1,5 +1,5 @@
 import { useField } from "formik";
-import StatusMessage from "../StatusMessage";
+import StatusMessage from "../../ui/status/StatusMessage";
 import Input from "./Input";
 import classes from './FormikInput.module.scss'
 

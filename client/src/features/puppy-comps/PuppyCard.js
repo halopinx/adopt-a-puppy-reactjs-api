@@ -1,5 +1,5 @@
-import Card from "../../components/ui/Card";
-import Button from "../../components/ui/Button";
+import Card from "../../components/ui/card/Card";
+import Button from "../../components/ui/button/Button";
 import classes from './PuppyCard.module.scss'
 
 const PuppyCard = ({ details }) => {

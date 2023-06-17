@@ -5,7 +5,8 @@ import PuppyInfo from "../features/puppy-comps/PuppyInfo";
 import AdoptForm from "../features/adopt-form/AdoptForm";
 import FormContext from '../store/form-context';
 import imgPlaceholder from '../assets/images/placeholder.jpg'
-import Modal from '../components/ui/Modal';
+import Modal from '../components/ui/modal/Modal';
+import Loading from '../components/ui/loader/Loading';
 import classes from './PuppyProfile.module.scss';
 import useFetchData from '../hooks/useFetchData';
 
@@ -30,8 +31,8 @@ const PuppyProfilePage = () => {
 
     return (  
         <div className="app-container">
+            {isLoading && <Loading message='Puppy profile loading...' />}
             <div className={classes.wrapper}>
-                {isLoading && <p>Loading...</p>}
                 {!isLoading && (
                     <>
                         <PuppyAside name={name} age={age} gender={gender} photoUrl={photoUrl || imgPlaceholder}/>

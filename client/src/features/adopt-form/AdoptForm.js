@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import FormContext from '../../store/form-context';
 import { Formik, Form } from 'formik';
-import Button from '../../components/ui/Button';
+import Button from '../../components/ui/button/Button';
 import FormikInput from '../../components/ui/form/FormikInput';
 import { AdoptFormSchema } from './schema';
 import classes from './AdoptForm.module.scss'

@@ -1,18 +1,17 @@
 import PuppyCard from '../features/puppy-comps/PuppyCard';
-import Button from '../components/ui/Button';
+import Button from '../components/ui/button/Button';
+import Loading from '../components/ui/loader/Loading';
 import classes from './Home.module.scss'
 import useFetchData from '../hooks/useFetchData'
 
 const HomePage = () => {
     const { data, isLoading } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies`);
 
-    console.log(data, isLoading)
-
     return (
         <div className='app-container'>
             <h1 className={classes.heading}>Featured Puppies to adapt</h1>
+            { isLoading  && <Loading message='Fetching data...' />}
             <div className={classes.wrapper}>
-                { isLoading  && <p>Loading...</p>}
                 { !isLoading && (
                     data.slice(0,4).map(data => {
                         const link = `/${data.name}-${data._id}`.toLowerCase();
