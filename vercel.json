@@ -7,8 +7,7 @@
             "destination": "/api/index.js"
         },
         {
-            "source": "/client/pages/(.*)",
-            "destination": "/client/pages/*.js"
+            "source": "/(.*)", "destination": "/"
         }
     ]
   }
