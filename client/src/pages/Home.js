@@ -42,7 +42,7 @@ const HomePage = () => {
                     }
                 </div>
             )}
-            <div className={classes.action}><Button link='/find-your-puppy'>See more puppies</Button></div>
+            { !isLoading && <div className={classes.action}><Button link='/find-your-puppy'>See more puppies</Button></div>}
         </div>
     );
 }
