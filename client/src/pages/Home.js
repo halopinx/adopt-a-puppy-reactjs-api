@@ -7,6 +7,8 @@ import useFetchData from '../hooks/useFetchData'
 const HomePage = () => {
     const { data, isLoading } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies`);
 
+    console.log('homepage data', data)
+
     return (
         <div className='app-container'>
             <h1 className={classes.heading}>Featured Puppies to adapt</h1>
