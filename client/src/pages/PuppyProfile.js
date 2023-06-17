@@ -19,6 +19,9 @@ const PuppyProfilePage = () => {
     const { name, age, gender, photoUrl, size, isVaccinated, isNeutered, traits } = data;
     const traitsList = traits?.join(', ');
 
+    console.log('api id', `${process.env.REACT_APP_API_URL}/puppies/${puppyId}`)
+    console.log('params', router)
+    console.log('data id', data)
 
     const navigate = useNavigate();
     const modalCloseHandler = () => {
