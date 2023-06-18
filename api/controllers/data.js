@@ -2,7 +2,7 @@ import Puppy from "../models/puppyModel.js";
 
 export const getData = async (req, res) => {
     try {
-      const puppies = await Puppy.find({})
+      const puppies = await Puppy.find().sort({ createdAt:-1 })
       res.status(200).json(puppies);
     } catch (error) {
          console.log(error.message)
