@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import FormContext from '../../store/form-context';
+import { useFormContext } from '../../context/form-context';
 import { Formik, Form } from 'formik';
 import Button from '../../components/ui/button/Button';
 import FormikInput from '../../components/ui/form/FormikInput';
@@ -8,7 +7,7 @@ import classes from './AdoptForm.module.scss'
 
 
 const AdoptForm = () => {
-    const { setIsSubmitted } = useContext(FormContext);
+    const { setIsSubmitted } = useFormContext()
 
     const initialValues = {
         firstName: '',

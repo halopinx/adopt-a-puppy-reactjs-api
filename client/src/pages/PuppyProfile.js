@@ -1,9 +1,8 @@
-import { useContext } from 'react';
 import { useParams, useNavigate } from 'react-router'
 import PuppyAside from "../features/puppy-comps/PuppyAside";
 import PuppyInfo from "../features/puppy-comps/PuppyInfo";
 import AdoptForm from "../features/adopt-form/AdoptForm";
-import FormContext from '../store/form-context';
+import { useFormContext } from '../context/form-context';
 import imgPlaceholder from '../assets/images/placeholder.jpg'
 import Modal from '../components/ui/modal/Modal';
 import Loading from '../components/ui/loader/Loading';
@@ -13,7 +12,7 @@ import useFetchData from '../hooks/useFetchData';
 
 
 const PuppyProfilePage = () => {
-    const { isSubmitted, setIsSubmitted } = useContext(FormContext)
+    const { isSubmitted, setIsSubmitted } = useFormContext();
     const router = useParams()
     const puppyId = router.id.split('-')[1];
 
