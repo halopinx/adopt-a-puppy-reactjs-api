@@ -9,11 +9,9 @@ const useFetchData = (url) => {
     useEffect(() => {
         setIsLoading(true);
         axios.get(url)
-            .then(response => {
-                setData(response.data)
-                setIsLoading(false)
-            })
+            .then(response => setData(response.data))
             .catch(error => setError(error))
+            .finally(() => setIsLoading(false))
       
     }, [url])
 

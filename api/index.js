@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
 import express from 'express';
-import Puppy from './models/puppyModel.js';
 import cors from 'cors'
 import dotenv from 'dotenv'
 dotenv.config();
 import puppiesRoute from './routes/puppies.js'
 
 const app = express();
-
 
 app.use(cors());
 app.use(express.json());
