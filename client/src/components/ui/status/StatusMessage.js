@@ -1,8 +1,9 @@
-import classes from './StatusMessage.module.scss'
+import classes from './StatusMessage.module.scss';
+import cn from 'classnames'
 
-const StatusMessage = ({ message, status }) => {
+const StatusMessage = ({ message, status, className }) => {
     return (
-        <div className={classes[status]}>{message}</div>
+        <div className={cn(className, classes[status])}>{message}</div>
      );
 }
  

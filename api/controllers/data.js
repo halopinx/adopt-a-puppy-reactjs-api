@@ -2,13 +2,59 @@ import Puppy from "../models/puppyModel.js";
 
 export const getData = async (req, res) => {
     try {
-      const puppies = await Puppy.find().sort({ createdAt:-1 })
+      const q = req.query.q;
+      const filterItems = [
+        { name: new RegExp(q, 'i') },
+        { age: +q },
+        { gender: new RegExp(q, 'i') },
+        { size: new RegExp(q, 'i') },
+        { breed: new RegExp(q, 'i') }
+      ]
+
+      let match = {};
+
+      if (q){
+        match.$or = [
+          ...filterItems
+        ]
+      }
+      
+      if(req.query.breed) {
+        match.breed = new RegExp(req.query.breed, 'i');
+      }
+
+      if(req.query.gender) {
+        match.gender = req.query.gender;
+      }
+
+      if(req.query.age) {
+        match.age = +req.query.age;
+      }
+
+      // if(req.query.gender === 'all') {
+      //   match = {}
+      // }
+
+      // console.log('m', match, req.query.gender === 'all', req.query.breed === 'all')
+
+      const puppies = await Puppy.aggregate([ { $match: match} ])
       res.status(200).json(puppies);
+
     } catch (error) {
          console.log(error.message)
          res.status(500).json({message: error.message})
     }
  }
+
+ export const getAllData = async (req, res) => {
+  try {
+    const puppies = await Puppy.find(req.query).sort({ createdAt: -1 })
+    res.status(200).json(puppies);
+  } catch (error) {
+       console.log(error.message)
+       res.status(500).json({message: error.message})
+  }
+} 
 
 export const getDataById = async (req, res) => {
   try {

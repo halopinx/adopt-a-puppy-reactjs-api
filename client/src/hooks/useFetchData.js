@@ -15,10 +15,19 @@ const useFetchData = (url) => {
       
     }, [url])
 
+    const refetch = (url) => {
+        setIsLoading(true);
+        axios.get(url)
+            .then(response => setData(response.data))
+            .catch(error => setError(error))
+            .finally(() => setIsLoading(false))
+    }
+
     return {
         data,
         isLoading,
-        error
+        error,
+        refetch
     }
 
 }

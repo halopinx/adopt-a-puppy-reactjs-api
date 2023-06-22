@@ -7,7 +7,7 @@ import useFetchData from '../hooks/useFetchData'
 
 
 const HomePage = () => {
-    const { data, isLoading, error } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies`);
+    const { data, isLoading, error } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies/all`);
 
     if (error) {
         return (

@@ -21,6 +21,10 @@ button{
     appearance: none;
     outline: none;
     border: 0;
+    &:disabled{
+        cursor: not-allowed;
+        opacity: 0.2;
+    }
 }
 input, select {
     outline: none;

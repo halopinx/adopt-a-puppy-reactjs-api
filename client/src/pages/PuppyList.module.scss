@@ -40,3 +40,14 @@
     font-size: 0.75rem;
     background-color: colors.$secondary;
 }
+.loading{
+    grid-column: 1/span2;
+}
+.error{
+    grid-column: 1/span2;
+    text-align: center;
+}
+.nodata{
+    grid-column: 1/span2;
+    text-align: center;
+}
