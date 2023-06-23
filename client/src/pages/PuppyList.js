@@ -62,8 +62,9 @@ const PuppyListPage = () => {
         //add queries as params router path
         navigate(`/find-your-puppy?${params}`)
 
-        //remove breed all and gender all in api fetch
-        const queries = /(breed|gender)=all/g.test(transformedQueries) ? transformedQueries.replace(/(breed|gender)=all/g, '') : transformedQueries
+        //remove breed all and gender all in api fetch and remove special characters in fetch queries
+        const skipChars = /[!@#$%^&*?()\\]/g
+        const queries = /(breed|gender)=all/g.test(transformedQueries) ? transformedQueries.replace(/(breed|gender)=all/g, '') : transformedQueries.replace(skipChars, '')
 
         //fetching data in api based on queriess
         refetch(`${process.env.REACT_APP_API_URL}/puppies?${queries}`);
