@@ -31,13 +31,7 @@ export const getData = async (req, res) => {
         match.age = +req.query.age;
       }
 
-      // if(req.query.gender === 'all') {
-      //   match = {}
-      // }
-
-      // console.log('m', match, req.query.gender === 'all', req.query.breed === 'all')
-
-      const puppies = await Puppy.aggregate([ { $match: match} ])
+      const puppies = await Puppy.aggregate([ { $match: match } ])
       res.status(200).json(puppies);
 
     } catch (error) {

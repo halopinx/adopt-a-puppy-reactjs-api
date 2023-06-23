@@ -18,13 +18,13 @@ const initialState = {
 const queryReducer = (state, action) => {
     switch (action.type) {
         case 'SEARCH': 
-            return { ...state, search: action.value.toLowerCase() }
+            return {...state, search: action.value.toLowerCase() }
         case 'AGE':
-            return { ...state,  age: action.value }
+            return { ...state, age: action.value }
         case 'BREED':
-            return { ...state,  breed: action.value }
+            return { ...state, breed: action.value }
         case 'GENDER':
-            return { ...state,  gender: action.value.toLowerCase() }
+            return { ...state, gender: action.value.toLowerCase() }
         case 'RESET':
             return { ...initialState}; 
         default:
@@ -33,18 +33,37 @@ const queryReducer = (state, action) => {
 }
 
 const PuppyListPage = () => {
-    const [queryState, dispatch] = useReducer(queryReducer, initialState);
-    const [query, setQuery] = useState(null);
-    const { data, isLoading, error, refetch } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies`)
+
     const navigate = useNavigate();
 
-    // const breedArr = data ? data.map(item => item.breed).filter((uniqueItem, i, arr) => arr.indexOf(uniqueItem) === i) : []
-    // console.log('breedArr', breedArr)
+    const [queryState, dispatch] = useReducer(queryReducer, initialState);
+    const [query, setQuery] = useState(null);
+    const { data, isLoading, error, refetch } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies`);
+    const { data: allPuppies } = useFetchData(`${process.env.REACT_APP_API_URL}/puppies/all`);
+    
+   
+    const breedArr = allPuppies?.map(item => item.breed).filter((uniqueItem, i, arr) => arr.indexOf(uniqueItem) === i);
+    const minAge = Math.min.apply(null, allPuppies?.map(item => item.age))
+    const maxAge = Math.max.apply(null, allPuppies?.map(item => item.age))
 
     const addNavigate = (navigateTo) => {
-        const transformedQueries = Object.entries(navigateTo).map(key => key.join('=')).join('&');
-        navigate(`/find-your-puppy?${transformedQueries}`)
-        refetch(`${process.env.REACT_APP_API_URL}/puppies?${transformedQueries}`)   
+        const transformedQueries = Object.entries(navigateTo).map((key, index, arr) => {
+            const isEmptySearch = key[1].trim() === '' && key[0] === 'q'
+            const isEmptyAge = key[1].trim() === '' && key[0] === 'age'
+            const isLastIndex =  index === arr.length - 1;
+            return isEmptySearch || isEmptyAge ? '' : key.join('=') + `${isLastIndex ? ''  : '&'}`
+        }).join('')
+
+        console.log('navigateTo', navigateTo)
+        
+        //remove unneccessry '&' at the end of the search location params
+        const params = /&$/.test(transformedQueries) ? transformedQueries.replace('&', '') : transformedQueries
+        navigate(`/find-your-puppy?${params}`)
+
+        // if(navigateTo.breed === 'all'){
+        //     refetch(`${process.env.REACT_APP_API_URL}/puppies`);
+        // }
+        refetch(`${process.env.REACT_APP_API_URL}/puppies?${transformedQueries}`);
     }
 
     const ageFilterHandler = (e) => {
@@ -68,8 +87,7 @@ const PuppyListPage = () => {
     const searchHandler = (e) => {
         dispatch({ type: 'SEARCH', value: e.target.value })
         addNavigate({ ...query, q: e.target.value })    
-        setQuery(prev => ({ q: e.target.value, ...prev,  }));
-        
+        setQuery(prev => ({ ...prev, q: e.target.value }));
     }
 
     const resetHandler = () => {
@@ -78,6 +96,8 @@ const PuppyListPage = () => {
         setQuery(null)
         dispatch({ type: 'RESET' })
     }
+    
+    console.log('query', query)
 
     return ( 
         <div className="app-container">
@@ -85,16 +105,12 @@ const PuppyListPage = () => {
                 <aside className={classes.filters}>
                     <h3>Filter puppy</h3>
                     <Input type="search" placeholder="Search puppy..." onChange={searchHandler} value={queryState.search}/>
-                    <Input type='number' min={1} max={3} placeholder='All ages' label='Age' onChange={ageFilterHandler} value={queryState.age} />
+                    <Input type='number' min={minAge} max={maxAge} placeholder='All ages' label='Age' onChange={ageFilterHandler} value={queryState.age} />
                     <Input variant='select' name='breed' onChange={breedFilterHandler} label='Breed' value={queryState.breed}>
                         <option value="all">All Breed</option>
-                        <option value="Golden Retriever">Golden Retriever</option>
-                        <option value="Springer Spaniel">Springer Spaniel</option>
-                        <option value="Collie cross">Collie cross</option>
-                        <option value="Jack Russell">Jack Russell</option>
-                        {/* {
-                            breedArr.map((breed, index) => <option key={index} value={breed}>{breed}</option>)
-                        } */}
+                        {
+                          breedArr?.map((breed, index) => <option key={index} value={breed}>{breed}</option>)
+                        }
                     </Input>
                     <Input variant='select' name='gender' label='Gender' onChange={genderFilterHandler} value={queryState.gender}>
                         <option value="all">All Gender</option>

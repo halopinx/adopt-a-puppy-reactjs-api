@@ -22,7 +22,7 @@ const useFetchData = (url) => {
             .catch(error => setError(error))
             .finally(() => setIsLoading(false))
     }
-
+    
     return {
         data,
         isLoading,
