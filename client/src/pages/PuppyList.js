@@ -47,23 +47,26 @@ const PuppyListPage = () => {
     const maxAge = Math.max.apply(null, allPuppies?.map(item => item.age))
 
     const addNavigate = (navigateTo) => {
+        //transform queriies into 
         const transformedQueries = Object.entries(navigateTo).map((key, index, arr) => {
             const isEmptySearch = key[1].trim() === '' && key[0] === 'q'
             const isEmptyAge = key[1].trim() === '' && key[0] === 'age'
             const isLastIndex =  index === arr.length - 1;
+
             return isEmptySearch || isEmptyAge ? '' : key.join('=') + `${isLastIndex ? ''  : '&'}`
         }).join('')
-
-        console.log('navigateTo', navigateTo)
         
         //remove unneccessry '&' at the end of the search location params
         const params = /&$/.test(transformedQueries) ? transformedQueries.replace('&', '') : transformedQueries
+
+        //add queries as params router path
         navigate(`/find-your-puppy?${params}`)
 
-        // if(navigateTo.breed === 'all'){
-        //     refetch(`${process.env.REACT_APP_API_URL}/puppies`);
-        // }
-        refetch(`${process.env.REACT_APP_API_URL}/puppies?${transformedQueries}`);
+        //remove breed all and gender all in api fetch
+        const queries = /(breed|gender)=all/g.test(transformedQueries) ? transformedQueries.replace(/(breed|gender)=all/g, '') : transformedQueries
+
+        //fetching data in api based on queriess
+        refetch(`${process.env.REACT_APP_API_URL}/puppies?${queries}`);
     }
 
     const ageFilterHandler = (e) => {
@@ -75,7 +78,7 @@ const PuppyListPage = () => {
     const genderFilterHandler = (e) => {
         dispatch({ type: 'GENDER', value: e.target.value })
         setQuery(prev => ({ ...prev, gender: e.target.value }))
-        addNavigate({ ...query, gender: e.target.value}) 
+        addNavigate({ ...query, gender: e.target.value }) 
     }
 
     const breedFilterHandler = (e) => {
@@ -97,11 +100,9 @@ const PuppyListPage = () => {
         dispatch({ type: 'RESET' })
     }
     
-    console.log('query', query)
-
     return ( 
         <div className="app-container">
-                <div className={classes.wrapper}>
+            <div className={classes.wrapper}>
                 <aside className={classes.filters}>
                     <h3>Filter puppy</h3>
                     <Input type="search" placeholder="Search puppy..." onChange={searchHandler} value={queryState.search}/>
@@ -141,7 +142,7 @@ const PuppyListPage = () => {
                         })
                     }
                 </div>
-                </div>
+            </div>
         </div>
     );
 }
