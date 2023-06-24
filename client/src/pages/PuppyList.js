@@ -45,36 +45,55 @@ const PuppyListPage = () => {
     const breedArr = allPuppies?.map(item => item.breed).filter((uniqueItem, i, arr) => arr.indexOf(uniqueItem) === i);
     const minAge = Math.min.apply(null, allPuppies?.map(item => item.age))
     const maxAge = Math.max.apply(null, allPuppies?.map(item => item.age))
+    const isQueryEmpty = !Object.values(query || {}).some(v => v);
 
-    const addNavigate = (navigateTo) => {
-        //transform queriies into 
-        const transformedQueries = Object.entries(navigateTo).map((key, index, arr) => {
+
+    const transformedQuery = (queryObj) => {
+        //transform queries into query params router path
+        const transformedQueries = Object.entries(queryObj).map((key, index, arr) => {
             const isEmptySearch = key[1].trim() === '' && key[0] === 'q'
             const isEmptyAge = key[1].trim() === '' && key[0] === 'age'
             const isLastIndex =  index === arr.length - 1;
+                return isEmptySearch || isEmptyAge ? '' : key.join('=') + `${isLastIndex ? ''  : '&'}`
+        }).join('');
 
-            return isEmptySearch || isEmptyAge ? '' : key.join('=') + `${isLastIndex ? ''  : '&'}`
-        }).join('')
-        
+        return transformedQueries;
+    }
+
+    const addNavigate = (queryObj) => {
         //remove unneccessry '&' at the end of the search location params
-        const params = /&$/.test(transformedQueries) ? transformedQueries.replace('&', '') : transformedQueries
+        const params = /&$/.test(queryObj) ? queryObj.replace('&', '') : queryObj
 
         //add queries as params router path
         navigate(`/find-your-puppy?${params}`)
+    }
 
-        //remove breed all and gender all in api fetch and remove special characters in fetch queries
-        const skipChars = /[!@#$%^&*?()\\]/g
-        const queries = /(breed|gender)=all/g.test(transformedQueries) ? transformedQueries.replace(/(breed|gender)=all/g, '') : transformedQueries.replace(skipChars, '')
+    const fetchData = (queryObj) => {
+        let queries = queryObj;
+        const skipChars = /[![\]\\()*]/g
 
-        //fetching data in api based on queriess
+        //remove breed all and gender all in api fetch
+        if (/(breed|gender)=all/g.test(queryObj)) {
+            
+            queries = queryObj?.replace(/(breed|gender)=all/g, '');
+        }
+        //remove special characters in search queries
+        if (queryObj.includes('q=') && skipChars.test(queryObj)){
+            queries = queryObj?.replace(skipChars, '');
+        }
+
+        //fetching data in api based on queries
         refetch(`${process.env.REACT_APP_API_URL}/puppies?${queries}`);
     }
 
     const filterByCategory = (category, target) => {
         const queryCategory = category === 'SEARCH' ? 'q' : category.toLowerCase();
+        const queryParams = transformedQuery({ ...query, [queryCategory]: target });
+
         dispatch({ type: category, value: target })
-        setQuery(prev => ({ ...prev, [queryCategory]: target }))
-        addNavigate({ ...query, [queryCategory]: target })    
+        setQuery(prev => ({ ...prev, [queryCategory]: target }));
+        addNavigate(queryParams)    
+        fetchData(queryParams);
     }
 
     const ageFilterHandler = (e) => {   
@@ -99,7 +118,7 @@ const PuppyListPage = () => {
         setQuery(null)
         dispatch({ type: 'RESET' });
     }
-    
+
     return ( 
         <div className="app-container">
             <div className={classes.wrapper}>
@@ -118,7 +137,7 @@ const PuppyListPage = () => {
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </Input>
-                    <Button variant='button' className={classes.reset} onClick={resetHandler} disabled={!query || query.q === ''}>Clear Filters</Button>
+                    <Button variant='button' className={classes.reset} onClick={resetHandler} disabled={isQueryEmpty}>Clear Filters</Button>
                 </aside>
                 <div className={classes.results}>
                     { error && <StatusMessage message={`Something went wrong in your query: ${error}`} className={classes.error} />}
