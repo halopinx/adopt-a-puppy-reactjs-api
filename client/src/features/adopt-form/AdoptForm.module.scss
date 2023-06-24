@@ -1,7 +1,12 @@
-.fields{
-    max-width: 80%;
+@use '../../styles/settings.scss' as screen;
+@import '../../styles/mixins.scss';
+
+.fields{   
     overflow: hidden;
     margin: 0 auto;
+    @include breakpoint(screen.$large){
+        max-width: 80%;
+    }
     small{
         margin-bottom: 1rem;
         display: inline-block;

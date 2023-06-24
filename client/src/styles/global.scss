@@ -1,4 +1,5 @@
 @use './settings.scss' as fonts;
+@use './settings.scss' as screen;
 
 body{
     font-family: fonts.$font-name;
@@ -34,11 +35,13 @@ input, select {
 }
 .app{
    &-main{
-    padding: 60px 0;    
+    padding: 3.75rem 0;    
    }
    &-container{
-    max-width: 1200px;
+    max-width: screen.$xlarge;
     margin: 0 auto;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
    }
 }
 .font-light{
