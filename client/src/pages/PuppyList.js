@@ -100,6 +100,8 @@ const PuppyListPage = () => {
         setQuery(null)
         dispatch({ type: 'RESET' })
     }
+
+    // console.log('query', query, 'queryState', queryState);
     
     return ( 
         <div className="app-container">
@@ -119,7 +121,7 @@ const PuppyListPage = () => {
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </Input>
-                    <Button variant='button' className={classes.reset} onClick={resetHandler} disabled={!query}>Clear Filters</Button>
+                    <Button variant='button' className={classes.reset} onClick={resetHandler} disabled={!query || query.q === ''}>Clear Filters</Button>
                 </aside>
                 <div className={classes.results}>
                     { error && <StatusMessage message={`Something went wrong in your query: ${error}`} className={classes.error} />}
