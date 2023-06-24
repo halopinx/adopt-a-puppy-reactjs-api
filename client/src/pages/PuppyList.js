@@ -70,38 +70,35 @@ const PuppyListPage = () => {
         refetch(`${process.env.REACT_APP_API_URL}/puppies?${queries}`);
     }
 
-    const ageFilterHandler = (e) => {
-        dispatch({ type: 'AGE', value: e.target.value })
-        setQuery(prev => ({ ...prev, age: e.target.value }))
-        addNavigate({ ...query, age: e.target.value})    
+    const filterByCategory = (category, target) => {
+        const queryCategory = category === 'SEARCH' ? 'q' : category.toLowerCase();
+        dispatch({ type: category, value: target })
+        setQuery(prev => ({ ...prev, [queryCategory]: target }))
+        addNavigate({ ...query, [queryCategory]: target })    
+    }
+
+    const ageFilterHandler = (e) => {   
+        filterByCategory('AGE', e.target.value);
     }
 
     const genderFilterHandler = (e) => {
-        dispatch({ type: 'GENDER', value: e.target.value })
-        setQuery(prev => ({ ...prev, gender: e.target.value }))
-        addNavigate({ ...query, gender: e.target.value }) 
+        filterByCategory('GENDER', e.target.value);
     }
 
     const breedFilterHandler = (e) => {
-        dispatch({ type: 'BREED', value: e.target.value })
-        setQuery(prev => ({ ...prev, breed: e.target.value }))
-        addNavigate({ ...query, breed: e.target.value})
+       filterByCategory('BREED', e.target.value);
     }
 
     const searchHandler = (e) => {
-        dispatch({ type: 'SEARCH', value: e.target.value })
-        addNavigate({ ...query, q: e.target.value })    
-        setQuery(prev => ({ ...prev, q: e.target.value }));
+        filterByCategory('SEARCH', e.target.value);
     }
 
     const resetHandler = () => {
-        navigate(`/find-your-puppy`)
-        refetch(`${process.env.REACT_APP_API_URL}/puppies`)
+        navigate(`/find-your-puppy`);
+        refetch(`${process.env.REACT_APP_API_URL}/puppies`);
         setQuery(null)
-        dispatch({ type: 'RESET' })
+        dispatch({ type: 'RESET' });
     }
-
-    // console.log('query', query, 'queryState', queryState);
     
     return ( 
         <div className="app-container">
