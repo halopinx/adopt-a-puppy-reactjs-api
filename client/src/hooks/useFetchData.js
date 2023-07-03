@@ -8,11 +8,7 @@ const useFetchData = (url) => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(url)
-            .then(response => setData(response.data))
-            .catch(error => setError(error))
-            .finally(() => setIsLoading(false))
-      
+        refetch(url);
     }, [url])
 
     const refetch = (url) => {
