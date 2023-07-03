@@ -51,10 +51,11 @@ const PuppyListPage = () => {
     const transformedQuery = (queryObj) => {
         //transform queries into query params router path
         const transformedQueries = Object.entries(queryObj).map((key, index, arr) => {
-            const isEmptySearch = key[1].trim() === '' && key[0] === 'q'
-            const isEmptyAge = key[1].trim() === '' && key[0] === 'age'
+            const isEmptySearch = key[1].trim() === '' && key[0] === 'q';
+            const isEmptyAge = key[1].trim() === '' && key[0] === 'age';
             const isLastIndex =  index === arr.length - 1;
-                return isEmptySearch || isEmptyAge ? '' : key.join('=') + `${isLastIndex ? ''  : '&'}`
+            
+            return isEmptySearch || isEmptyAge ? '' : key.join('=') + `${isLastIndex ? ''  : '&'}`
         }).join('');
 
         return transformedQueries;
@@ -62,7 +63,7 @@ const PuppyListPage = () => {
 
     const addNavigate = (queryObj) => {
         //remove unneccessry '&' at the end of the search location params
-        const params = /&$/.test(queryObj) ? queryObj.replace('&', '') : queryObj
+        const params = /&$/.test(queryObj) ? queryObj.replace(/&$/, '') : queryObj
 
         //add queries as params router path
         navigate(`/find-your-puppy?${params}`)
@@ -73,10 +74,10 @@ const PuppyListPage = () => {
         const skipChars = /[![\]\\()*]/g
 
         //remove breed all and gender all in api fetch
-        if (/(breed|gender)=all/g.test(queryObj)) {
-            
+        if (/(breed|gender)=all/g.test(queryObj) ) {
             queries = queryObj?.replace(/(breed|gender)=all/g, '');
         }
+
         //remove special characters in search queries
         if (queryObj.includes('q=') && skipChars.test(queryObj)){
             queries = queryObj?.replace(skipChars, '');
@@ -115,7 +116,7 @@ const PuppyListPage = () => {
     const resetHandler = () => {
         navigate(`/find-your-puppy`);
         refetch(`${process.env.REACT_APP_API_URL}/puppies`);
-        setQuery(null)
+        setQuery(null);
         dispatch({ type: 'RESET' });
     }
 
@@ -140,7 +141,7 @@ const PuppyListPage = () => {
                     <Button variant='button' className={classes.reset} onClick={resetHandler} disabled={isQueryEmpty}>Clear Filters</Button>
                 </aside>
                 <div className={classes.results}>
-                    { error && <StatusMessage message={`Something went wrong in your query: ${error}`} className={classes.error} />}
+                    { error && !isLoading && <StatusMessage message={`Something went wrong in your query: ${error}`} className={classes.error} />}
                     { (data?.length === 0 && !isLoading) && <StatusMessage message='Sorry, no data is fetch within your filter query.'  className={classes.nodata} /> }
                     { isLoading 
                         ? <Loading message='Loading data...' className={classes.loading}/> 
